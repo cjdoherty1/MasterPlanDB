@@ -2,14 +2,13 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import Contact from "../views/Contact.vue";
-import DiscussionHousing from "../views/DiscussionHousing.vue";
+import Discussion from "../views/Discussion.vue";
 import IdeaWall from "../views/IdeaWall.vue";
 import Participate from "../views/Participate.vue";
 import ProjectInfo from "../views/ProjectInfo.vue";
 import Snapshots from "../views/Snapshots.vue";
 import Updates from "../views/Updates.vue";
 import InputMap from "../views/InputMap.vue";
-import Admin from "../views/Admin.vue";
 
 Vue.use(VueRouter);
 
@@ -47,7 +46,7 @@ const routes: RouteConfig[] = [
   {
     path: "/discussion",
     name: "Discussion",
-    component: DiscussionHousing
+    component: Discussion
   },
   {
     path: "/updates",
@@ -63,11 +62,6 @@ const routes: RouteConfig[] = [
     path: "/inputmap",
     name: "InputMap",
     component: InputMap
-  },
-  {
-    path: "/admin",
-    name: "admin",
-    component: Admin
   }
 ];
 

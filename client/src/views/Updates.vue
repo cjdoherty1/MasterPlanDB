@@ -4,16 +4,6 @@
       <v-col cols="8">
         <v-card>
           <v-card-title> Project Updates</v-card-title>
-          <v-card v-for="(update, i) in updates" :key="i">
-            <v-card-title>{{ update.title }}</v-card-title>
-            <v-card-subtitle
-              >{{
-                `${update.createdAt.getDate()}/${update.createdAt.getMonth()}/${update.createdAt.getFullYear()}`
-              }}
-              by {{ update.author }}</v-card-subtitle
-            >
-            <v-card-text>{{ update.text }}</v-card-text>
-          </v-card>
         </v-card>
       </v-col>
       <v-col>
@@ -33,11 +23,11 @@
                 <textarea
                   class="form-control form-control-lg"
                   rows="8"
-                  v-model="text"
+                  v-model="details"
                   placeholder="Update Description"
                 />
               </fieldset>
-              <v-btn style="width:100%;" @click="createUpdate"> Submit </v-btn>
+              <v-btn style="width:100%;"> Submit </v-btn>
             </form>
           </v-container>
         </v-card>
@@ -49,41 +39,12 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import UpdateService from "../DBServices/UpdateService";
-
-type Update = {
-  text: string;
-  title: string;
-  author: string;
-  createdAt: Date;
-  _id: string;
-};
 
 @Component({
   components: {}
 })
 export default class Updates extends Vue {
-  updates: Update[] = [];
-  error = "";
-  text = "";
+  details = "";
   title = "";
-  author = "Colin Doherty";
-
-  async created() {
-    try {
-      this.updates = (await UpdateService.getUpdates()) as Update[];
-    } catch (err) {
-      this.error = err.message;
-    }
-  }
-  async createUpdate() {
-    await UpdateService.insertPost(this.author, this.title, this.text);
-    this.updates = (await UpdateService.getUpdates()) as Update[];
-    console.log(this.author + this.title + this.text);
-  }
-  async deletePost(id: string) {
-    await UpdateService.deletePost(id);
-    this.updates = (await UpdateService.getUpdates()) as Update[];
-  }
 }
 </script>
