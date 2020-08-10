@@ -7,9 +7,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const posts = require('./routes/api/posts');
+const updates = require('./routes/api/updates');
 
-app.use('/api/posts', posts);
+app.use('/api/updates', updates);
 
 //handle production
 if(process.env.NODE_ENV === 'production') {

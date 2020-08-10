@@ -1,56 +1,86 @@
 <template>
   <div class="container">
-    <h1>Latests Posts</h1>
+    <h1>Latests Upadtes</h1>
     <div class="create-post">
-      <label for="create-post">Say Something</label>
-      <input type="text" id="create-post" v-model="text" placeholder="Create a post">
-      <button @click="createPost">Post!</button>
+      <label for="create-post">Author</label>
+      <input
+        type="text"
+        id="create-post"
+        v-model="author"
+        placeholder="Create a post"
+      />
     </div>
-    <hr>
+    <div class="create-post">
+      <label for="create-post">Title</label>
+      <input
+        type="text"
+        id="create-post"
+        v-model="title"
+        placeholder="Create a post"
+      />
+    </div>
+    <div class="create-post">
+      <label for="create-post">Text</label>
+      <input
+        type="text"
+        id="create-post"
+        v-model="text"
+        placeholder="Create a post"
+      />
+      <button @click="createUpdate">Post!</button>
+    </div>
+    <hr />
     <p class="error" v-if="error">{{ error }}</p>
-    <div 
+    <div
       class="post"
-      v-for="(post, i) in posts"
-      :item="post"
-      :key="post._id"
+      v-for="(update, i) in updates"
+      :item="update"
+      :key="update._id"
       :index="i"
-      @dblclick="deletePost(post._id)"
+      @dblclick="deletePost(update._id)"
     >
-      {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}` }}
-      <p class="text">{{ post.text }}</p>
+      {{
+        `${update.createdAt.getDate()}/${update.createdAt.getMonth()}/${update.createdAt.getFullYear()}`
+      }}
+      <p class="text">{{ update.author }}</p>
+      <p class="text">{{ update.title }}</p>
+      <p class="text">{{ update.text }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import PostService from '../PostService'
+import UpdateService from "../UpdateService";
 export default {
-  name: 'PostComponent',
+  name: "UpdateComponent",
   data() {
     return {
-      posts: [],
-      error: '',
-      text: ''
-    }
+      updates: [],
+      error: "",
+      text: "",
+      author: "",
+      title: ""
+    };
   },
   async created() {
     try {
-      this.posts = await PostService.getPosts()
-    } catch(err) {
+      this.updates = await UpdateService.getUpdates();
+    } catch (err) {
       this.error = err.message;
     }
   },
   methods: {
-    async createPost() {
-      await PostService.insertPost(this.text);
-      this.posts = await PostService.getPosts();
+    async createUpdate() {
+      await UpdateService.insertPost(this.author, this.title, this.text);
+      this.updates = await UpdateService.getUpdates();
+      console.log(this.author + this.title + this.text);
     },
-    async deletePost() {
-      await PostService.deletePost(this.id);
-      this.posts = await PostService.getPosts();
+    async deletePost(id) {
+      await UpdateService.deletePost(id);
+      this.updates = await UpdateService.getUpdates();
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -88,6 +118,6 @@ div.created-at {
 p.text {
   font-size: 22px;
   font-weight: 700;
-  margin:0;
+  margin: 0;
 }
 </style>
